@@ -8,6 +8,21 @@ require("./bootstrap");
 
 window.Vue = require("vue").default;
 
+
+
+
+import CxltToastr from 'cxlt-vue2-toastr'
+import 'cxlt-vue2-toastr/dist/css/cxlt-vue2-toastr.css'
+
+
+var toastrConfigs = {
+    position: 'top right',
+    showDuration: 2000,
+    timeOut: 9000,
+    progressBar: true,
+
+}
+Vue.use(CxltToastr, toastrConfigs)
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -35,7 +50,24 @@ const app = new Vue({
   created() {
     Echo.channel("chatify").listen("Notify", (e) => {
       console.log(e);
-      alert(e.message);
+      // alert(e.message);
+        this.$toast.success({
+        title:'notification',
+        message:e.message
+    })
+    });
+    Echo.join(`chatify`)
+    .here((users) => {
+        //
+    })
+    .joining((user) => {
+        console.log(user.name);
+    })
+    .leaving((user) => {
+        console.log(user.name);
+    })
+    .error((error) => {
+        console.error(error);
     });
   },
 });

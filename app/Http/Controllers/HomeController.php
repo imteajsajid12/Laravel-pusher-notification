@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\Notify;
 use Illuminate\Console\Scheduling\Event as SchedulingEvent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 
 class HomeController extends Controller
@@ -31,7 +32,8 @@ class HomeController extends Controller
     }
     public function send()
     {
-        event(new Notify('hey how are You'));
+        $user = Auth::user()->name;
+        event(new Notify($user . '  ' . 'send a new notification'));
         return back();
     }
     public function index1()
